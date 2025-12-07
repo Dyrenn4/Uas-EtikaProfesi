@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRODUK PALSU</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary: #ff6b4a;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+        }
+
+        body { font-family: 'Inter', sans-serif; color: #333; overflow-x: hidden; background-color: #f8f9fa; }
+        html { scroll-behavior: smooth; }
+        .text-primary-custom { color: var(--primary); }
+        .bg-primary-custom { background-color: var(--primary); }
+        .section-padding { padding: 80px 0; }
+        .fw-extra-bold { font-weight: 800; }
+
+        /* Navbar */
+        .navbar { backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .nav-link { font-weight: 500; color: #555; transition: 0.3s; }
+        .nav-link:hover { color: var(--primary); }
+
+        /* Hero */
+        #hero {
+            height: 90vh; background-color: var(--dark); color: white; display: flex; align-items: center; justify-content: center;
+            text-align: center; background: radial-gradient(circle at center, #2a2a2a 0%, #000000 100%);
+        }
+        .hero-btn {
+            background-color: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 50px;
+            font-weight: 700; transition: transform 0.3s; text-decoration: none;
+        }
+        .hero-btn:hover { transform: translateY(-3px); color: white; }
+
+        /* Galeri Split View */
+        .split-card {
+            border: 1px solid #eee; border-radius: 12px; overflow: hidden; background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s; height: 100%;
+        }
+        .split-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .split-image-wrapper { display: flex; height: 220px; position: relative; }
+        .half-img { width: 50%; position: relative; overflow: hidden; }
+        .half-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .half-img:hover img { transform: scale(1.05); }
+        .badge-status {
+            position: absolute; top: 10px; font-size: 0.7rem; font-weight: 800;
+            padding: 4px 10px; color: white; border-radius: 4px; z-index: 10;
+        }
+        .badge-fake { background-color: #dc3545; left: 10px; }
+        .badge-real { background-color: #198754; right: 10px; }
+
+        /* Klasifikasi Cards (New) */
+        .class-card { padding: 2rem; height: 100%; background-color: #fff; border-radius: 8px; transition: transform 0.3s ease; }
+        .class-card:hover { transform: translateY(-5px); }
+        .card-red { background-color: #fff5f5; border-left: 5px solid #dc3545; }
+        .icon-red { color: #dc3545; }
+        .card-orange { background-color: #fff8f0; border-left: 5px solid #fd7e14; }
+        .icon-orange { color: #fd7e14; }
+        .card-yellow { background-color: #fffbf0; border-left: 5px solid #eebb00; }
+        .icon-yellow { color: #eebb00; }
+        .card-purple { background-color: #f8f0ff; border-left: 5px solid #6f42c1; }
+        .icon-purple { color: #6f42c1; }
+        .class-title { font-weight: 700; font-size: 1.1rem; color: #333; margin-bottom: 0.5rem; }
+        .class-subtitle { font-size: 0.9rem; color: #666; margin-bottom: 1.5rem; }
+        .class-list { padding-left: 1rem; margin-bottom: 0; font-size: 0.9rem; color: #444; }
+
+        /* Ciri Khas (Original) */
+        .hover-border-primary:hover { border-color: var(--primary) !important; }
+
+        /* Analisis Hukum */
+        .analysis-card {
+            background: white; border-radius: 12px; padding: 30px; border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02); margin-bottom: 30px; transition: box-shadow 0.3s;
+        }
+        .analysis-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .pasal-tag {
+            background-color: #000; color: #fff; padding: 4px 10px; font-size: 0.8rem;
+            font-weight: 700; display: inline-block; margin-right: 5px; margin-bottom: 5px; border-radius: 4px;
+        }
+        .list-analysis li { margin-bottom: 8px; font-size: 0.95rem; color: #444; display: flex; align-items: flex-start; }
+        
+        /* Referensi Hukum */
+        .legal-box { background-color: #000; color: #fff; padding: 50px; border-radius: 12px; }
+        .legal-title { color: #dc3545; font-weight: 700; margin-bottom: 25px; }
+        .legal-list li { margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        .pasal-highlight { color: #dc3545; font-weight: 700; margin-right: 8px; }
+
+        /* Utilities */
+        .title-underline { width: 60px; height: 4px; background: #dc3545; margin: 15px auto; border-radius: 2px; }
+        .step-icon {
+            width: 80px; height: 80px; background: white; border: 2px solid #eee; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #aaa; margin: 0 auto 20px; transition: 0.3s;
+        }
+        .step-item:hover .step-icon { border-color: var(--primary); color: var(--primary); }
+        footer { background-color: var(--dark); color: #888; padding: 40px 0; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-bag-check-fill text-primary-custom"></i> KW<span class="text-primary-custom">BRAND</span>.ID
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-3">
+                    <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#klasifikasi">Klasifikasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#analisis">Hukum</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#dampak">Dampak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="container position-relative z-1">
+            <h1 class="display-3 fw-extra-bold mb-4">ANALISI <br> PRODUK PALSU</h1>
+            <p class="lead text-secondary mb-5 mx-auto" style="max-width: 600px; color: #aaa !important;">
+                Analisis visual dan hukum terkait peredaran barang palsu di Indonesia. Edukasi cerdas melindungi konsumen. <br> Rendy Aldrian Sibata 202351043
+            </p>
+            <a href="#galeri" class="hero-btn">Mulai Investigasi <i class="bi bi-arrow-right ms-2"></i></a>
+        </div>
+    </section>
+
+    <section id="metode" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Metode Penelitian</h2>
+                <div class="title-underline" style="background: var(--primary);"></div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-3 mb-4 step-item">
+                    <div class="step-icon"><i class="bi bi-search"></i></div> <h5 class="fw-bold">Pengumpulan</h5>
+                </div>
+                <div class="col-md-3 mb-4 step-item">
+                    <div class="step-icon"><i class="bi bi-eye"></i></div> <h5 class="fw-bold">Observasi</h5>
+                </div>
+                <div class="col-md-3 mb-4 step-item">
+                    <div class="step-icon"><i class="bi bi-arrow-left-right"></i></div> <h5 class="fw-bold">Komparasi</h5>
+                </div>
+                <div class="col-md-3 mb-4 step-item">
+                    <div class="step-icon"><i class="bi bi-file-text"></i></div> <h5 class="fw-bold">Analisis</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeri" class="section-padding bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Galeri Barang Bukti</h2>
+                <p class="text-muted">Perbandingan visual langsung: <strong>Kiri (Palsu)</strong> vs <strong>Kanan (Asli)</strong></p>
+            </div>
+            <div class="row g-4" id="gallery-container"></div>
+        </div>
+    </section>
+
+    <section id="klasifikasi" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Klasifikasi Fake Brand</h2>
+                <div class="title-underline"></div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="class-card card-red">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-files fs-2 icon-red me-3"></i>
+                            <div><div class="class-title">Merek Tiruan Langsung</div><div class="class-subtitle">Logo sama, nama dimodifikasi</div></div>
+                        </div>
+                        <div class="ms-1"><small class="text-muted">Contoh:</small><ul class="class-list mt-2"><li>Adibas, Nkie, Poma</li></ul></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="class-card card-orange">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-eye fs-2 icon-orange me-3"></i>
+                            <div><div class="class-title">Look-Alike Packaging</div><div class="class-subtitle">Kemasan mirip produk terkenal</div></div>
+                        </div>
+                        <div class="ms-1"><small class="text-muted">Contoh:</small><ul class="class-list mt-2"><li>Indomie tiruan, Wardah KW</li></ul></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="class-card card-yellow">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-award fs-2 icon-yellow me-3"></i>
+                            <div><div class="class-title">Passing Off</div><div class="class-subtitle">Manfaatin nama terkenal</div></div>
+                        </div>
+                        <div class="ms-1"><small class="text-muted">Contoh:</small><ul class="class-list mt-2"><li>Starbaks, Chatimee</li></ul></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="class-card card-purple">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-palette fs-2 icon-purple me-3"></i>
+                            <div><div class="class-title">Plagiat Visual / Logo</div><div class="class-subtitle">Modifikasi warna & bentuk sedikit</div></div>
+                        </div>
+                        <div class="ms-1"><small class="text-muted">Contoh:</small><ul class="class-list mt-2"><li>Logo serupa, Warna brand</li></ul></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-light">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5">Ciri Khas Barang Palsu</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 border rounded-3 h-100 bg-white hover-border-primary">
+                        <i class="bi bi-type fs-1 text-primary-custom mb-3 d-block"></i>
+                        <h5 class="fw-bold">Nama Mirip</h5>
+                        <p class="text-muted small">Plesetan nama seperti Adadis, Nkie, atau Guci.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 border rounded-3 h-100 bg-white hover-border-primary">
+                        <i class="bi bi-card-image fs-1 text-primary-custom mb-3 d-block"></i>
+                        <h5 class="fw-bold">Logo Aneh</h5>
+                        <p class="text-muted small">Bentuk logo tidak simetris, terbalik, atau font salah.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 border rounded-3 h-100 bg-white hover-border-primary">
+                        <i class="bi bi-box-seam fs-1 text-primary-custom mb-3 d-block"></i>
+                        <h5 class="fw-bold">Kemasan Buruk</h5>
+                        <p class="text-muted small">Box tipis, cetakan buram, tidak ada barcode valid.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 border rounded-3 h-100 bg-white hover-border-primary">
+                        <i class="bi bi-currency-dollar fs-1 text-primary-custom mb-3 d-block"></i>
+                        <h5 class="fw-bold">Harga Miring</h5>
+                        <p class="text-muted small">Harga 70-90% lebih murah dari harga ritel resmi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="analisis" class="section-padding bg-white">
+        <div class="container">
+            <h2 class="fw-bold mb-5">Analisis Pelanggaran & Hukum</h2>
+
+            <div class="analysis-card">
+                <div class="d-flex align-items-center mb-4"><i class="bi bi-hammer text-danger fs-3 me-3"></i><h4 class="fw-bold m-0 text-dark">Nike &rarr; Nkie</h4></div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <h6 class="text-muted fw-bold mb-3">Elemen yang ditiru:</h6>
+                        <ul class="list-unstyled list-analysis">
+                            <li><i class="bi bi-circle-fill text-danger me-2" style="font-size: 6px;"></i> Logo swoosh</li>
+                            <li><i class="bi bi-circle-fill text-danger me-2" style="font-size: 6px;"></i> Nama merek (Fonetik)</li>
+                            <li><i class="bi bi-circle-fill text-danger me-2" style="font-size: 6px;"></i> Font tipografi</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h6 class="text-muted fw-bold mb-3">Dampak:</h6>
+                        <ul class="list-unstyled list-analysis">
+                            <li><i class="bi bi-exclamation-circle text-danger me-2"></i> Kerugian ekonomi</li>
+                            <li><i class="bi bi-exclamation-circle text-danger me-2"></i> Reputasi menurun</li>
+                            <li><i class="bi bi-exclamation-circle text-danger me-2"></i> Konsumen tertipu</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h6 class="text-muted fw-bold mb-3">Pasal Relevan:</h6>
+                        <div><span class="pasal-tag">Pasal 100</span><span class="pasal-tag">Pasal 83</span><span class="pasal-tag">Pasal 99</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analysis-card">
+                <div class="d-flex align-items-center mb-4"><i class="bi bi-hammer text-danger fs-3 me-3"></i><h4 class="fw-bold m-0 text-dark">Adidas &rarr; Adibas</h4></div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <h6 class="text-muted fw-bold mb-3">Elemen yang ditiru:</h6>
+                        <ul class="list-unstyled list-analysis">
+                            <li><i class="bi bi-circle-fill text-danger me-2" style="font-size: 6px;"></i> Three stripes</li>
+                            <li><i class="bi bi-circle-fill text-danger me-2" style="font-size: 6px;"></i> Typosquatting</li>
+                            <li><i class="bi bi-circle-fill text-danger me-2" style="font-size: 6px;"></i> Warna khas</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h6 class="text-muted fw-bold mb-3">Dampak:</h6>
+                        <ul class="list-unstyled list-analysis">
+                            <li><i class="bi bi-exclamation-circle text-danger me-2"></i> Salah beli (Online)</li>
+                            <li><i class="bi bi-exclamation-circle text-danger me-2"></i> Penurunan penjualan</li>
+                            <li><i class="bi bi-exclamation-circle text-danger me-2"></i> Trust issue</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h6 class="text-muted fw-bold mb-3">Pasal Relevan:</h6>
+                        <div><span class="pasal-tag">Pasal 100</span><span class="pasal-tag">Pasal 76</span><span class="pasal-tag">Pasal 102</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <div class="legal-box shadow">
+                    <h3 class="legal-title">Referensi Hukum (UU Merek No. 20/2016)</h3>
+                    <ul class="list-unstyled legal-list">
+                        <li><span class="pasal-highlight">Pasal 100</span> Sanksi pidana (Maks 5 Tahun / Rp2 M).</li>
+                        <li><span class="pasal-highlight">Pasal 76</span> Gugatan pembatalan merek.</li>
+                        <li><span class="pasal-highlight">Pasal 83</span> Gugatan ganti rugi.</li>
+                        <li><span class="pasal-highlight">Pasal 4</span> definisi merek.</li>
+                        <li><span class="pasal-highlight">Pasal 6 ayat 1</span> tidak boleh sama atau mirip pada pokoknya.</li>
+                        <li><span class="pasal-highlight">Pasal 90-92</span> ketentuan pidana merek.</li>
+                        <li><span class="pasal-highlight">Pasal 76</span> gugatan pelanggaran merek.</li>
+                        <li><span class="pasal-highlight">Pasal 83</span> ganti rugi.</li>
+                        <li><span class="pasal-highlight">Pasal 94</span> penyitaan barang palsu.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dampak" class="section-padding bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5">
+                    <h3 class="fw-bold mb-4">Dampak & Risiko</h3>
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="bi bi-exclamation-triangle-fill text-danger fs-4 me-3"></i>
+                        <div><h6 class="fw-bold">Bahaya Keselamatan</h6><p class="text-muted small">Kosmetik/elektronik palsu bisa berbahaya bagi fisik.</p></div>
+                    </div>
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="bi bi-graph-down-arrow text-danger fs-4 me-3"></i>
+                        <div><h6 class="fw-bold">Kerugian Ekonomi</h6><p class="text-muted small">Negara rugi pajak, brand asli rugi reputasi.</p></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-white p-5 rounded-4 shadow-sm border">
+                        <h3 class="fw-bold mb-4">Rekomendasi</h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-success me-3"></i> Beli di Official Store</li>
+                            <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-success me-3"></i> Cek kualitas bahan</li>
+                            <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-success me-3"></i> Jangan tergiur harga murah</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="mb-1 fw-bold text-white">FAKE BRAND INDONESIA</p>
+            <p class="small">© 2024 Portfolio Project. Created for Educational Purpose.</p>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title fw-bold">Detail Temuan</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body"><h5 id="modal-desc" class="fw-bold mb-3"></h5><p id="modal-list" class="p-3 bg-light rounded text-dark"></p></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const products = [
+            { id:1, brandAsli:"Skintific", brandPalsu:"Doctor Tony", jenis:"Skincare", lokasi:"Shopee", desc: "Analisis Hukum Kasus Pemalsuan Merek di E-commerce:\n\n1. Pelanggaran Hak Merek (UU No. 20 Tahun 2016):\n   Penjual mengganti merek terdaftar 'Skintific' menjadi 'Doctor Tony' untuk produk sejenis.\n   Tindakan ini melanggar Pasal 100 UU Merek, yang mengatur sanksi untuk penggunaan merek yang memiliki kesamaan pada keseluruhannya atau pokoknya.\n   Sanksi potensial: Pidana penjara hingga 5 tahun dan denda hingga Rp2 Miliar.\n\n2. Pelanggaran Perlindungan Konsumen (UU No. 8 Tahun 1999):\n   Penjualan produk palsu dengan deskripsi yang menyesatkan melanggar kewajiban pelaku usaha untuk memberikan informasi yang benar, jelas, dan jujur (Pasal 8 UUPK).\n   Ini juga melanggar hak konsumen untuk mendapatkan barang sesuai dengan nilai, mutu, dan keamanannya.\n   Sanksi potensial: Pidana denda atau wajib ganti rugi kepada konsumen.\n\nModus Operandi: Mengubah nama produk dan menyajikan bukti visual palsu untuk mengecoh pembeli di platform. \nImage Asli \nImage Palsu", imgAsli: "salicasli.jpg", imgPalsu: "salicpalsu.jpg", linkasli: "https://shopee.co.id/SKINTIFIC-Salicylic-Acid-Anti-Acne-Serum-50ml-Acne-Treatment-Solution-Melembabkan-Menghilangkan-Bekas-Jerawat-Kulit-Beruntusan-Exfoliating-Perawatan-Wajah-Calming-Pelembab-Pemutih-Wajah-Facial-Moisturizer-Day-Cream-Night-Cream-Skincare-BPOM-i.380266264.12931517911?extraParams=%7B%22display_model_id%22%3A147220534535%2C%22model_selection_logic%22%3A3%7D&sp_atk=1e778890-3adb-4c89-b621-65c608e52191&xptdk=1e778890-3adb-4c89-b621-65c608e52191", linkpalsu: "https://id.shp.ee/qNfiWiE" },
+            { id:2, brandAsli:"Skintific", brandPalsu:"Mangoman", jenis:"Skincare", lokasi:"Shopee", desc: "Analisis Hukum Kasus Pemalsuan Merek di E-commerce:\n\n1. Pelanggaran Hak Merek Dagang (UU No. 20 Tahun 2016):\n   Penjual menjual produk skincare dengan mengganti merek terdaftar 'Skintific' (5X Ceramide Barrier Moisturizer) menjadi merek 'Mangoman'.\n   Tindakan ini merupakan indikasi kuat Pemalsuan Merek yang diatur dalam Pasal 100 UU Merek, yang bertujuan memanfaatkan reputasi merek asli untuk keuntungan ilegal.\n   Sanksi hukumnya meliputi hukuman penjara hingga 5 tahun dan denda maksimum Rp2 Miliar.\n\n2. Pelanggaran Perlindungan Konsumen (UU No. 8 Tahun 1999):\n   Penjualan produk palsu dengan merek yang diganti dan menggunakan deskripsi menyesatkan merupakan pelanggaran terhadap hak konsumen atas informasi yang benar, jelas, dan jujur (Pasal 4 UUPK).\n   Selain itu, hal ini melanggar larangan memperdagangkan barang yang tidak sesuai dengan keterangan yang dicantumkan (Pasal 8 UUPK).\n   Penjual dapat dikenakan sanksi pidana dan diwajibkan untuk memberikan ganti rugi kepada konsumen yang dirugikan.\n\nModus Operandi: Mengubah identitas merek produk dan menggunakan citra yang tidak akurat untuk transaksi online di Shopee. \nImage Asli \nImage Palsu", imgAsli: "skintificasli.jpg", imgPalsu: "skintificpalsu.jpg", linkasli: "https://shopee.co.id/SKINTIFIC-5X-Ceramide-Barrier-Moisturizer-Gel-30g-For-Ance-Skin-Cream-pencerah-Wajah-Calming-Whitening-Brightening-Dark-Spot-Pelembab-Wajah-Pemutih-Wajah-Facial-Moisturizer-Day-Cream-Night-Cream-Skincare-BPOM-Acid-Sooth-Sunburn-mousturize-mosturizer-i.380266264.22324918043?extraParams=%7B%7D", linkpalsu: "https://id.shp.ee/bm2iAAR" },
+            { id:3, brandAsli:"Burger King", brandPalsu:"Burger Friend", jenis:"Makanan", lokasi:"Iraq", desc: "Analisis Hukum Kasus Pemalsuan Merek Internasional:\n\n1. Pelanggaran Merek Terkenal (Well-Known Mark):\n   'Burger King' adalah Merek Terkenal secara global. Penggunaan 'Burger Friend' dengan meniru logo dan hanya mengganti kata 'King' menjadi 'Friend' menimbulkan 'confusing similarity' (persamaan yang menyesatkan) yang sangat tinggi.\n   Tindakan ini melanggar prinsip perlindungan Merek Terkenal berdasarkan Konvensi Paris (Article 6bis), yang mewajibkan negara anggota melindungi merek terkenal dari peniruan, bahkan jika merek tersebut belum terdaftar secara lokal di negara tersebut (Iraq).\n\n2. Persaingan Usaha Tidak Sehat (Unfair Competition):\n   Modus operandi meniru logo dan nama sedemikian rupa dikategorikan sebagai 'passing off' atau persaingan usaha tidak sehat.\n   Pelaku usaha 'Burger Friend' bertujuan untuk menyesatkan konsumen mengenai asal-usul produk, agar konsumen keliru mengira produk tersebut berafiliasi atau berasal dari 'Burger King'.\n\n3. Yurisdiksi dan Tuntutan Hukum:\n   Pemegang hak 'Burger King' memiliki dasar kuat untuk mengajukan tuntutan hukum perdata dan/atau pidana di pengadilan Iraq berdasarkan undang-undang merek domestik Iraq, yang umumnya mencakup perlindungan terhadap Merek Terkenal dan tindakan persaingan curang.\n\nModus Operandi: Meniru Logo Dan Hanya Mengganti 'King' Menjadi 'Friend' pada kategori makanan. \nImage Asli \nImage Palsu", imgAsli: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/01/8d/17/good-service-for-a-change.jpg?w=900&h=-1&s=1", imgPalsu: "https://i.insider.com/503bb3b369beddef05000012?width=500&format=jpeg&auto=webp", linkasli: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/01/8d/17/good-service-for-a-change.jpg?w=900&h=-1&s=1", linkpalsu: "https://i.insider.com/503bb3b369beddef05000012?width=500&format=jpeg&auto=webp" },
+            { id:4, brandAsli:"Apple", brandPalsu:"Iphone HDC", jenis:"Smartphone", lokasi:"Tokopedia", desc: "Analisis Hukum Kasus Pemalsuan Produk Elektronik:\n\n1. Pelanggaran Hak Merek Dagang dan Desain Industri (UU No. 20 Tahun 2016 & UU No. 13 Tahun 2016):\n   - Penjual melanggar hak eksklusif 'Apple' atas merek dan desain produk iPhone dengan menjual replika 'HDC' yang memiliki tampilan fisik yang sama (persamaan pada keseluruhan).\n   - Ini merupakan Pemalsuan Merek yang terancam sanksi pidana penjara hingga 5 tahun dan denda maksimum Rp2 Miliar (Pasal 100 UU Merek).\n\n2. Pelanggaran Hak Cipta dan Perlindungan Konsumen (UU No. 28 Tahun 2014 & UU No. 8 Tahun 1999):\n   - Modifikasi OS Android agar menyerupai iOS melanggar Hak Cipta atas program komputer dan antarmuka. Selain itu, praktik ini melanggar UUPK.\n   - Penjual tidak memberikan informasi yang benar dan jujur mengenai spesifikasi dan OS produk yang sebenarnya, yang sangat menyesatkan konsumen (Pasal 8 UUPK).\n   - Penjual dapat dikenakan sanksi pidana UUPK dan wajib memberikan ganti rugi.\n\nModus Operandi: Peniruan tampilan fisik, penggunaan merek tiruan ('Iphone HDC'), dan penyesatan spesifikasi teknis (OS Android dimodifikasi iOS) untuk dijual di platform e-commerce. \nImage Asli \nImage Palsu", imgAsli: "ipasli.jpg", imgPalsu: "ippalsu.jpg", linkasli: "https://www.tokopedia.com/wearnastore/apple-iphone-11-garansi-resmi-putih-b8721?extParam=ivf%3Dfalse%26keyword%3Diphone+11%26search_id%3D20251206100250138BB0696595B3015YEH%26src%3Dsearch&t_id=1765015376924&t_st=2&t_pp=search_result&t_efo=search_pure_goods_card&t_ef=goods_search&t_sm=&t_spt=search_result" ,linkpalsu: "https://www.tokopedia.com/fikriphonejkt/iphone-11-hdc?extParam=ivf%3Dfalse%26keyword%3Dhdc+iphone%26search_id%3D2025120610010304025959B191F80F2BFD%26src%3Dsearch" },
+            { id:5, brandAsli:"Indomie Goreng", brandPalsu:"Qiao Mai Ban Mian", jenis:"Makanan", lokasi:"Minimarket China", desc: "Analisis Hukum Kasus Peniruan Desain Produk Internasional:\n\n1. Pelanggaran Trade Dress dan Merek (Hukum HKI Internasional/China):\n   - Pelanggaran utama adalah peniruan 'Trade Dress' (kemasan dan tampilan keseluruhan produk) 'Indomie Goreng', meskipun mereknya berbeda ('Qiao Mai Ban Mian').\n   - Desain kemasan Indomie memiliki ciri khas yang kuat (Distinctiveness) dan telah dilindungi. Peniruan desain ini menciptakan 'likelihood of confusion' (potensi kebingungan) di mata konsumen.\n   - Peniruan kemasan yang memiliki 'persamaan pada keseluruhannya' dapat melanggar Chinese Trademark Law dan perlindungan Merek Terkenal di bawah Konvensi Paris, karena berusaha menciptakan asosiasi palsu dengan merek asli.\n\n2. Persaingan Usaha Tidak Sehat (Unfair Competition):\n   - Tindakan ini secara jelas merupakan persaingan usaha tidak sehat yang bertujuan untuk menarik konsumen Indomie dengan menggunakan kemasan yang identik atau sangat mirip (passing off).\n   - Produsen peniru berusaha mengambil keuntungan dari reputasi dan goodwill Indomie di pasar internasional, termasuk di China.\n\n3. Langkah Hukum:\n   - Pemilik merek (PT Indofood) dapat mengajukan tuntutan hukum perdata atau administrasi di China, berdasarkan UU Merek China dan/atau UU Anti-Persaingan Tidak Sehat China, untuk meminta penghentian produksi, penarikan produk, dan menuntut ganti rugi.\n\nModus Operandi: Desain Kemasan Produk Ditiru Sama Persis Meskipun Merek Berbeda, dijual di Minimarket China. \nImage Asli \nImage Palsu", imgAsli: "https://www.indomie.co.id/Content/Product/indomie-goreng-spesial-plus_big.png", imgPalsu: "https://kissfmmedan.com/wp-content/uploads/2023/03/Viral-Indomie-KW-Versi-Cina.jpeg", linkasli: "https://www.indomie.co.id/Product/Category/1", linkpalsu: "https://kissfmmedan.com/mie-instan-asli-indonesia-ternyata-ada-versi-kw-nya-di-china/" },
+            { id:6, brandAsli:"Converse", brandPalsu:"Converz", jenis:"Sneakers", lokasi:"Shopee", desc: "Analisis Hukum Kasus Pemalsuan Merek dan Mutu Produk:\n\n1. Pelanggaran Hak Merek Dagang (UU No. 20 Tahun 2016):\n   - Penggunaan merek 'Converz' untuk sepatu jenis 'Sneakers' memiliki 'persamaan pada pokoknya' dengan merek terdaftar 'Converse', baik secara ucapan (fonetik) maupun visual.\n   - Tindakan ini dikategorikan sebagai Pemalsuan Merek, yang dilarang keras dan diancam sanksi pidana penjara hingga 5 tahun dan denda hingga Rp2 Miliar (Pasal 100 UU Merek).\n\n2. Pelanggaran Perlindungan Konsumen (UU No. 8 Tahun 1999):\n   - Penjualan sepatu dengan kualitas rendah ('Kain Sepatu Jelek', 'Sol karet tipis') di bawah standar merek asli, sekaligus menggunakan nama yang menyesatkan, melanggar hak konsumen.\n   - Penjual melanggar Pasal 8 UUPK karena memperdagangkan barang yang tidak sesuai dengan mutu, ukuran, takaran, dan kondisi sebagaimana dinyatakan atau diperjanjikan.\n   - Penjual bertanggung jawab atas kerugian konsumen dan dapat dikenakan sanksi UUPK.\n\n3. Modus Operandi:\n   - Menggunakan merek yang sangat mirip ('Converz') untuk meniru desain produk asli dan menjualnya dengan kualitas material yang jauh lebih rendah di platform e-commerce Indonesia (Shopee), bertujuan mengecoh pembeli untuk mendapatkan keuntungan ilegal. \nImage Asli \nImage Palsu", imgAsli: "https://www.converse.id/media/catalog/product/cache/81be3f71803e8b19243c0cf4508ce3b1/0/3/03-CONVERSE-FFSSBCONA-CONM5039C-Black.jpg", imgPalsu: "https://down-id.img.susercontent.com/file/id-11134103-7rasc-m0uxda2toqow63.webp", linkasli: "https://www.converse.id/chuck-taylor-all-star-low-unisex-mono-black.html?color=7229", linkpalsu: "https://shopee.co.id/Converse-Allstar-Low-Pendek-Sepatu-Sekolah-36-44-i.1337067.21084542217?extraParams=%7B%22display_model_id%22%3A197056709852%2C%22model_selection_logic%22%3A2%7D&sp_atk=ba942a09-834e-4ba3-adff-c5bb00618d79&xptdk=ba942a09-834e-4ba3-adff-c5bb00618d79" },
+            { id:7, brandAsli:"Rolex", brandPalsu:"Rolexx", jenis:"Jam Tangan", lokasi:"Shopee", desc: "Analisis Hukum Kasus Pemalsuan Merek Mewah:\n\n1. Pelanggaran Hak Merek Dagang (UU No. 20 Tahun 2016):\n   - 'Rolex' adalah Merek Terkenal (Well-Known Mark) secara internasional. Penggunaan 'Rolexx' untuk jam tangan sejenis memiliki 'persamaan pada pokoknya' (highly similar) yang jelas disengaja untuk mengecoh konsumen.\n   - Tindakan ini adalah Pemalsuan Merek yang diancam sanksi pidana penjara hingga 5 tahun dan denda maksimum Rp2 Miliar (Pasal 100 UU Merek).\n\n2. Pelanggaran Perlindungan Konsumen dan Kualitas (UU No. 8 Tahun 1999):\n   - Penjual melanggar hak konsumen atas informasi yang benar dan mutu barang.\n   - Deskripsi produk (ringan dan jarum detik berisik) secara langsung mengindikasikan kualitas palsu yang jauh di bawah standar jam tangan mewah asli. Jam palsu tidak mencerminkan kualitas, bobot, dan presisi Rolex yang sesungguhnya.\n   - Penjual melanggar Pasal 8 UUPK karena memperdagangkan barang yang tidak sesuai dengan kondisi dan mutu yang ditawarkan (replika).\n\n3. Modus Operandi:\n   - Menggunakan merek yang hampir identik ('Rolexx') dan menjual produk dengan cacat kualitas yang mudah dikenali (ringan, suara berisik) di platform e-commerce, memanfaatkan nama besar merek mewah 'Rolex' untuk menarik pembeli dengan harga jauh di bawah harga pasar yang wajar. \nImage Asli \nImage Palsu ",imgAsli: "rolexasli.jpg", imgPalsu: "rolexpalsu.jpg", linkasli: "https://www.rolex.com/id/watches/submariner/m124060-0001", linkpalsu: "https://shopee.co.id/Jam-Tangan-Pria-Mewah-Rolex-Anti-Air-Premium-i.434170122.23323788299?extraParams=%7B%22display_model_id%22%3A165563097147%2C%22model_selection_logic%22%3A3%7D&sp_atk=a3d08f1a-adc1-425e-914b-9e84f27229fa&xptdk=a3d08f1a-adc1-425e-914b-9e84f27229fa"},
+            { id:8, brandAsli:"Adidas", brandPalsu:"Abidas", jenis:"Baju", lokasi:"Lazada", desc: "Analisis Hukum Kasus Peniruan Merek dan Logo:\n\n1. Pelanggaran Hak Merek Dagang (UU No. 20 Tahun 2016):\n   - Merek 'Adidas' adalah Merek Terkenal di seluruh dunia. Penggunaan nama 'Abidas' memiliki 'persamaan pada pokoknya' (similarity in essential elements) baik secara pengucapan maupun penulisan, yang menimbulkan potensi kebingungan tinggi.\n   - Peniruan diperparah oleh fakta bahwa logo juga ditiru, memperkuat unsur Pemalsuan Merek berdasarkan Pasal 100 UU Merek.\n   - Sanksi pidana yang mengancam adalah penjara maksimum 5 tahun dan denda maksimum Rp2 Miliar.\n\n2. Pelanggaran Perlindungan Konsumen (UU No. 8 Tahun 1999):\n   - Penjual melanggar hak konsumen untuk mendapatkan informasi yang benar dan jujur mengenai asal-usul barang.\n   - Penjualan barang tiruan dengan logo dan nama yang menyerupai merek terkenal bertujuan menyesatkan konsumen tentang kualitas dan afiliasi produk.\n   - Penjual dapat dikenakan sanksi UUPK atas tindak penyesatan.\n\n3. Modus Operandi:\n   - Modus ini adalah bentuk klasik pemalsuan di mana hanya satu atau dua huruf yang diubah ('A' menjadi 'B' di awal), disertai dengan peniruan logo, dijual melalui platform e-commerce (Lazada) untuk memanfaatkan reputasi 'Adidas'. \nImage Asli \nImage Palsu", imgAsli: "https://cf.shopee.co.id/file/14d12135c1431eb192c27f93cf60d072", imgPalsu: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//106/MTA-41871958/no_brands_femmeshopa-no_brands-pakaian_dewasa-gamis_wanita-yx_gamis_adibas_pocket__full01_hvvi3bk8.jpg", linkasli:"https://cf.shopee.co.id/file/14d12135c1431eb192c27f93cf60d072", linkpalsu:"https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//106/MTA-41871958/no_brands_femmeshopa-no_brands-pakaian_dewasa-gamis_wanita-yx_gamis_adibas_pocket__full01_hvvi3bk8.jpg" },
+            { id:9, brandAsli:"Uniqlo", brandPalsu:"Onluiq", jenis:"Jaket", lokasi:"Marketplace", desc: "Analisis Hukum Kasus Peniruan Merek dan Logo:\n\n1. Pelanggaran Hak Merek Dagang (UU No. 20 Tahun 2016):\n   - Merek 'Uniqlo' adalah merek terkenal secara internasional. Penggunaan merek 'Onluiq' untuk produk sejenis ('Jaket') memiliki 'persamaan pada pokoknya' yang disengaja, baik dari segi penulisan maupun pengucapan (bunyi), yang sangat berpotensi mengecoh konsumen.\n   - Peniruan diperkuat oleh fakta bahwa 'Font logo kotak merah sama persis'. Logo ini adalah elemen distingtif utama 'Uniqlo', dan peniruan ini memenuhi unsur Pemalsuan Merek yang diatur dalam Pasal 100 UU Merek.\n   - Sanksi pidana yang diancam adalah penjara maksimum 5 tahun dan denda hingga Rp2 Miliar.\n\n2. Pelanggaran Perlindungan Konsumen (UU No. 8 Tahun 1999):\n   - Penjual melanggar kewajiban untuk memberikan informasi yang benar, jelas, dan jujur (Pasal 4 dan Pasal 8 UUPK) mengenai asal-usul, kualitas, dan afiliasi jaket tersebut.\n   - Konsumen disesatkan untuk percaya bahwa mereka membeli produk asli dari merek terkenal 'Uniqlo' atau produk yang berafiliasi dengannya.\n\n3. Modus Operandi:\n   - Menggunakan merek tiruan 'Onluiq' dan meniru secara sempurna elemen visual kunci merek asli (logo kotak merah), dengan tujuan memanfaatkan reputasi merek 'Uniqlo' untuk menarik pembeli di platform marketplace. \nImage Asli", imgAsli: "uniqloasli.png", imgPalsu: "uniqlopalsu.png", linkasli: "https://youtu.be/dnAGvww7h34"},
+            { id:10, brandAsli:"Facetology", brandPalsu:"Barubt", jenis:"Skincare", lokasi:"Shopee", desc: "Analisis Hukum Kasus Penggantian Merek dan Pemalsuan Skincare:\n\n1. Pelanggaran Hak Merek Dagang (UU No. 20 Tahun 2016):\n   - Penjual melakukan tindakan pemalsuan dengan mengganti merek terdaftar 'Facetology' menjadi merek lain 'Barubt' pada produk sejenis Skincare (Sunscreen).\n   - Modus operandi 'Mengganti Nama Brand Pada Produk' merupakan bentuk paling mendasar dari Pemalsuan Merek, karena produk yang dijual tidak memiliki izin resmi dan menggunakan nama yang menyesatkan untuk produk yang meniru barang asli.\n   - Tindakan ini diancam sanksi pidana penjara maksimum 5 tahun dan denda hingga Rp2 Miliar (Pasal 100 UU Merek).\n\n2. Pelanggaran Perlindungan Konsumen dan Keamanan Produk (UU No. 8 Tahun 1999):\n   - Penjualan Skincare palsu berisiko membahayakan kesehatan konsumen. Penjual melanggar hak konsumen atas keamanan dan keselamatan dalam mengonsumsi barang (Pasal 4 UUPK).\n   - Penjual juga melanggar kewajiban memberikan informasi yang benar, jelas, dan jujur (Pasal 8 UUPK), terutama terkait kandungan dan status registrasi BPOM produk palsu.\n   - Penjual dapat dikenakan sanksi pidana UUPK dan wajib ganti rugi.\n\n3. Modus Operandi:\n   - Menjual produk kosmetik tiruan yang identitasnya diubah (merek palsu 'Barubt') di platform e-commerce Shopee, yang secara langsung mengindikasikan produk tersebut ilegal, tidak memiliki izin edar BPOM yang sah, dan kualitasnya tidak terjamin. \nImage Asli \nImage Palsu", imgAsli: "https://down-id.img.susercontent.com/file/id-11134207-7ra0r-mbqhhs1g7gif47@resize_w450_nl.webp", imgPalsu: "https://down-id.img.susercontent.com/file/id-11134207-8224v-mg9o6dffndot26@resize_w450_nl.webp", linkasli: "https://shopee.co.id/-Exclusive-Facetology-Triple-Care-Sunscreen-For-Acne-Oily-Skin-SPF-40-PA-40ML-i.684531921.43407157548?extraParams=%7B%22display_model_id%22%3A285606601498%7D", linkpalsu: "https://shopee.co.id/product/1009806111/40770317822?d_id=63e66&uls_trackid=54ccpvpa00bs" }
+        ];
+        const galleryContainer = document.getElementById('gallery-container');
+        const detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+
+        function renderGallery() {
+            let html = '';
+            products.forEach(item => {
+                html += `
+                <div class="col-md-6 col-lg-6">
+                    <div class="split-card h-100">
+                        <div class="split-image-wrapper">
+                            <div class="half-img bg-light border-end border-white">
+                                <span class="badge-status badge-real">ORIGINAL</span>
+                                <img src="${item.imgAsli}" alt="${item.brandAsli}" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
+                            </div>
+                            <div class="half-img bg-secondary">
+                                <span class="badge-status badge-fake">FAKE</span>
+                                <img src="${item.imgPalsu}" alt="${item.brandPalsu}" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
+                            </div>
+                        </div>
+                        
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
+                                <div>
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">BRAND ASLI</small>
+                                    <h4 class="fw-bold text-success m-0">${item.brandAsli}</h4>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">BARANG PALSU</small>
+                                    <h4 class="fw-bold text-danger m-0">${item.brandPalsu}</h4>
+                                </div>
+                            </div>
+                            <div class="row text-secondary small align-items-center">
+                                <div class="col-6">
+                                    <i class="bi bi-tag-fill me-1"></i> ${item.jenis}
+                                </div>
+                                <div class="col-6 text-end">
+                                    <i class="bi bi-geo-alt-fill me-1"></i> ${item.lokasi}
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-dark btn-sm w-100 mt-3" onclick="showDetail(${item.id})">
+                                Lihat Detail Isu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+            galleryContainer.innerHTML = html;
+        }
+
+        function showDetail(id) {
+            const item = products.find(p => p.id === id);
+            
+            // 1. Siapkan Tautan HTML 
+            
+            let linkAsliHTML = '';
+            if (item.linkasli) {
+                linkAsliHTML = `<a href="${item.linkasli}" target="_blank" style="color: green; font-weight: bold; text-decoration: underline;">Image Asli</a>`;
+            } else {
+                linkAsliHTML = 'Image Asli';
+            }
+            
+            let linkPalsuHTML = '';
+            if (item.linkpalsu) {
+                linkPalsuHTML = `<a href="${item.linkpalsu}" target="_blank" style="color: red; font-weight: bold; text-decoration: underline;">Image Palsu</a>`;
+            } else {
+                linkPalsuHTML = 'Image Palsu';
+            }
+
+            // 2. Ganti Teks Deskripsi (item.desc) dengan Tautan HTML
+
+            let deskripsiDenganLink = item.desc;
+            
+            // Mengganti teks 'Image Asli' (dengan A besar)
+            // Kita menggunakan Regular Expression /.../g untuk mencari semua kecocokan.
+            deskripsiDenganLink = deskripsiDenganLink.replace(/Image Asli/g, linkAsliHTML);
+            
+            // Mengganti teks 'Image Palsu' (dengan P besar)
+            // Kita juga mencari 'Image Palsu ' (dengan spasi di akhir, seperti pada Rolex)
+            deskripsiDenganLink = deskripsiDenganLink.replace(/Image Palsu\s*/g, linkPalsuHTML); 
+
+            // Mengganti karakter baris baru (\n) menjadi tag <br> agar terlihat rapi di Modal
+            deskripsiDenganLink = deskripsiDenganLink.replace(/\n/g, '<br>');
+
+
+            // 3. Tampilkan di Modal 
+            
+            document.getElementById('modal-desc').innerText = `${item.brandAsli} vs ${item.brandPalsu}`;
+            
+            // Menggunakan innerHTML karena mengandung tag <a> dan <br>
+            document.getElementById('modal-list').innerHTML = deskripsiDenganLink; 
+            
+            detailModal.show();
+        }
+
+        document.addEventListener('DOMContentLoaded', renderGallery);
+</script>
